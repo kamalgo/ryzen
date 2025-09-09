@@ -4,6 +4,7 @@ const express = require("express");
 const cors = require("cors");
 const authRoutes = require("./routes/auth");
 const sequelize = require("../backend/db"); // use Sequelize, not pool
+const studentRoutes = require("../backend/routes/student")
 
 const PORT = process.env.PORT || 4004;
 const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:5173";
@@ -24,6 +25,7 @@ app.get("/api/health", (req, res) => res.json({ status: "ok" }));
 
 // mount auth routes under /api
 app.use("/api", authRoutes);
+app.use("/api/student", studentRoutes);
 
 // test database connection before starting server
 sequelize.authenticate()
