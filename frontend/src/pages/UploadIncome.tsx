@@ -1,12 +1,11 @@
 // frontend/src/pages/UploadIncome.tsx
 import React, { useState, ChangeEvent } from "react";
+import { useToken } from "../context/TokenContext";
 
 export default function UploadIncome() {
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
-
-  const params = new URLSearchParams(window.location.search);
-  const token = params.get("token");
+  const { token } = useToken(); // ✅ use token from context
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -16,7 +15,7 @@ export default function UploadIncome() {
 
   const handleUpload = async () => {
     if (!file) return alert("Please select a file first");
-    if (!token) return alert("No token found in URL");
+    if (!token) return alert("No active session found. Please login again.");
 
     setLoading(true);
     const data = new FormData();
@@ -25,16 +24,14 @@ export default function UploadIncome() {
     try {
       const res = await fetch("http://localhost:4004/student/upload-income", {
         method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
         body: data,
       });
 
       const result = await res.json();
       if (result.success) {
         alert("Income certificate uploaded successfully!");
-        window.location.href = result.redirect;
+        window.location.href = result.redirect; // 🔁 back to WA
       } else {
         alert(result.error || "Upload failed");
       }

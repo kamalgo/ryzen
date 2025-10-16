@@ -42,7 +42,8 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       { path: "login", element: <Login /> },
-      { path: "upload-caste", element: <UploadCaste /> },
+      // { path: "upload-caste", element: <UploadCaste /> },
+      { path: "upload-caste/*", element: <UploadCaste /> },
       { path: "upload-income", element: <UploadIncome /> },
       { path: "student-details", element: <StudentDetails /> },
     ],

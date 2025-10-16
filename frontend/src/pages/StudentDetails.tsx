@@ -1,5 +1,6 @@
 // frontend/src/pages/StudentDetails.tsx
 import React, { useState, ChangeEvent, FormEvent } from "react";
+import { useToken } from "../context/TokenContext";
 
 export default function StudentDetails() {
   const [formData, setFormData] = useState({
@@ -9,7 +10,9 @@ export default function StudentDetails() {
   });
 
   const params = new URLSearchParams(window.location.search);
-  const token = params.get("token");
+//   const token = params.get("token");
+    const { token } = useToken(); // ✅ get token here
+
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -17,7 +20,9 @@ export default function StudentDetails() {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    if (!token) return alert("No token found in URL");
+    // if (!token) return alert("No token found in URL");
+        if (!token) return alert("No active session found. Please login again.");
+
 
     try {
       const res = await fetch("http://localhost:4004/student/update", {
