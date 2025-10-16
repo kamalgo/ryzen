@@ -50,7 +50,7 @@ const studentRoutes = require("../backend/routes/student");
 const webhookRoutes = require("../backend/routes/webhookRoutes");
 
 const PORT = process.env.PORT || 4004;
-const FRONTEND_URL = "https://2fa8ad56fddc.ngrok-free.app" || "http://localhost:5173";
+const FRONTEND_URL = "https://d2750fe63dc0.ngrok-free.app" || "http://localhost:5173";
 
 const app = express();
 
